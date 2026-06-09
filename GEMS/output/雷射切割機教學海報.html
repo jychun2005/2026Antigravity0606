@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>雷射切割與雕刻機：原理、結構、分類與學習重點教學海報</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-blue: #0f172a;
+            --accent-blue: #2563eb;
+            --light-blue: #eff6ff;
+            --accent-green: #059669;
+            --light-green: #ecfdf5;
+            --accent-orange: #d97706;
+            --light-orange: #fffbeb;
+            --accent-red: #dc2626;
+            --light-red: #fef2f2;
+            --border-color: #cbd5e1;
+            --text-color: #334155;
+            --bg-color: #f8fafc;
+            --card-radius: 12px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+
+        .poster {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+            border-radius: 16px;
+            padding: 40px;
+        }
+
+        /* 標題區 */
+        header {
+            text-align: center;
+            border-bottom: 3px double var(--border-color);
+            padding-bottom: 25px;
+            margin-bottom: 35px;
+        }
+
+        .badge-header {
+            background-color: var(--accent-blue);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            display: inline-block;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--primary-blue);
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        /* 版面配置 - 上方左右結構，中央為 3D 圖 */
+        .layout-main {
+            display: grid;
+            grid-template-columns: 1.1fr 1.8fr 1.1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 1024px) {
+            .layout-main {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .side-col {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        /* 中央 3D 圖與標註 */
+        .center-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            border: 1px solid #f1f5f9;
+            border-radius: var(--card-radius);
+            padding: 20px;
+            background-color: #fafbfc;
+        }
+
+        .image-container {
+            position: relative;
+            max-width: 100%;
+            margin-bottom: 25px;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        /* 標註點 */
+        .label-dot {
+            position: absolute;
+            background-color: var(--accent-blue);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            font-weight: 800;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3);
+            cursor: pointer;
+        }
+
+        /* 模擬機器標註點位置 (以底圖比例定位) */
+        .dot-laser-tube { top: 22%; left: 38%; }
+        .dot-mirror-1 { top: 26%; left: 78%; }
+        .dot-mirror-2 { top: 48%; left: 76%; }
+        .dot-laser-head { top: 52%; left: 52%; }
+        .dot-xy-rails { top: 38%; left: 24%; }
+        .dot-honeycomb { top: 68%; left: 45%; }
+        .dot-control-panel { top: 35%; left: 88%; }
+        .dot-exhaust { top: 18%; left: 85%; }
+        .dot-cooling { top: 82%; left: 80%; }
+        .dot-air-assist { top: 62%; left: 62%; }
+
+        /* 卡片設計 */
+        .card {
+            background-color: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: var(--card-radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        .card-header .num {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--primary-blue);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+        }
+
+        /* 不同主題配色 */
+        .theme-blue { border-top: 4px solid var(--accent-blue); }
+        .theme-blue .card-header { color: var(--accent-blue); border-color: #dbeafe; }
+        .theme-blue .num { background-color: var(--accent-blue); }
+
+        .theme-green { border-top: 4px solid var(--accent-green); }
+        .theme-green .card-header { color: var(--accent-green); border-color: #d1fae5; }
+        .theme-green .num { background-color: var(--accent-green); }
+
+        .theme-orange { border-top: 4px solid var(--accent-orange); }
+        .theme-orange .card-header { color: var(--accent-orange); border-color: #fef3c7; }
+        .theme-orange .num { background-color: var(--accent-orange); }
+
+        .theme-red { border-top: 4px solid var(--accent-red); }
+        .theme-red .card-header { color: var(--accent-red); border-color: #fee2e2; }
+        .theme-red .num { background-color: var(--accent-red); }
+
+        /* 卡片清單 */
+        .bullet-list {
+            list-style: none;
+        }
+
+        .bullet-list li {
+            position: relative;
+            padding-left: 18px;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .bullet-list li::before {
+            content: "•";
+            color: var(--accent-blue);
+            font-weight: bold;
+            font-size: 18px;
+            position: absolute;
+            left: 2px;
+            top: -2px;
+        }
+
+        .theme-green .bullet-list li::before { color: var(--accent-green); }
+        .theme-orange .bullet-list li::before { color: var(--accent-orange); }
+        .theme-red .bullet-list li::before { color: var(--accent-red); }
+
+        /* 中間機器組件對照說明 */
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            width: 100%;
+            font-size: 13px;
+        }
+
+        .comp-item {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 10px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .comp-num {
+            background-color: var(--accent-blue);
+            color: white;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .comp-title {
+            font-weight: 700;
+            color: var(--primary-blue);
+        }
+
+        /* 下方表格與流程 */
+        .bottom-section {
+            display: grid;
+            grid-template-columns: 1.6fr 1.4fr;
+            gap: 30px;
+            border-top: 2px solid var(--border-color);
+            padding-top: 35px;
+            margin-top: 25px;
+        }
+
+        @media (max-width: 1024px) {
+            .bottom-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 分類比較表 */
+        table.comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13.5px;
+            box-shadow: var(--shadow);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        table.comparison-table th {
+            background-color: var(--primary-blue);
+            color: white;
+            font-weight: bold;
+            padding: 10px;
+            text-align: left;
+        }
+
+        table.comparison-table td {
+            padding: 10px;
+            border-bottom: 1px solid #e2e8f0;
+            background-color: #ffffff;
+        }
+
+        table.comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        table.comparison-table tr:nth-child(even) td {
+            background-color: #f8fafc;
+        }
+
+        /* 學習路徑步驟 */
+        .path-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .step-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 13.5px;
+        }
+
+        .step-num {
+            background: var(--accent-orange);
+            color: white;
+            font-weight: 700;
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 12px;
+        }
+
+        .step-name {
+            font-weight: 700;
+            color: var(--primary-blue);
+        }
+
+        /* 安全警示提醒 */
+        .safety-box {
+            background-color: var(--light-red);
+            border: 2px dashed var(--accent-red);
+            border-radius: var(--card-radius);
+            padding: 15px 20px;
+            margin-top: 30px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .safety-icon {
+            font-size: 24px;
+            animation: pulse 1.5s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); }
+            100% { transform: scale(1.05); }
+        }
+
+        /* 列印樣式 */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .poster {
+                box-shadow: none;
+                border: none;
+                padding: 0;
+            }
+            .label-dot {
+                border: 1px solid black;
+                background-color: white !important;
+                color: black !important;
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="poster">
+        
+        <!-- 標頭區 -->
+        <header>
+            <span class="badge-header">Maker Education Poster</span>
+            <h1>雷射切割與雕刻機：原理、結構、分類與學習重點</h1>
+            <div class="subtitle">一張圖系統化看懂創客必學的材料加工數位利器</div>
+        </header>
+
+        <!-- 左右佈局與中央結構圖 -->
+        <div class="layout-main">
+            
+            <!-- 左欄：核心概念與知識 -->
+            <div class="side-col">
+                
+                <!-- A. 運作原理 -->
+                <div class="card theme-blue">
+                    <div class="card-header">
+                        <span class="num">A</span>
+                        <span>運作原理核心概念</span>
+                    </div>
+                    <ul class="bullet-list">
+                        <li><strong>光學集能</strong>：利用高能雷射光束照射在材料表面，使其瞬間產生高溫。</li>
+                        <li><strong>融化與氣化</strong>：在高溫下，照射點的材料會急速融化、燃燒或直接氣化。</li>
+                        <li><strong>氣體輔助</strong>：雷射頭處會同步噴出壓縮空氣，吹走殘渣，形成狹窄且精確的切縫。</li>
+                    </ul>
+                </div>
+
+                <!-- B. 基礎加工功能 -->
+                <div class="card theme-green">
+                    <div class="card-header">
+                        <span class="num">B</span>
+                        <span>三大基本加工功能</span>
+                    </div>
+                    <ul class="bullet-list">
+                        <li><strong>雷射切割 (Cut)</strong>：高能量光束切穿材料。如製作立體拼圖、板材卡榫結構。</li>
+                        <li><strong>雷射雕刻 (Engrave)</strong>：中能量光束刨除表面。常用於圖案雕刻、漸層影像製作。</li>
+                        <li><strong>雷射打標 (Mark)</strong>：低能量光束在金屬或表面變色標記，常用於序號或QR碼。</li>
+                    </ul>
+                </div>
+
+                <!-- C. 常用參數名詞 -->
+                <div class="card theme-orange">
+                    <div class="card-header">
+                        <span class="num">C</span>
+                        <span>加工核心影響參數</span>
+                    </div>
+                    <ul class="bullet-list">
+                        <li><strong>功率 (Power, %)</strong>：雷射能量的大小，越高穿透力越強。</li>
+                        <li><strong>速度 (Speed, mm/s)</strong>：雷射頭移動快慢，越慢材料受熱時間越長。</li>
+                        <li><strong>頻率 (Frequency, Hz)</strong>：脈衝雷射每秒打出次數，影響切口的光滑度。</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- 中間欄：立體剖面圖與結構說明 -->
+            <div class="center-col">
+                <div class="image-container">
+                    <!-- 載入剛才生成的無文字乾淨3D底圖 -->
+                    <img src="laser_base_clean.png" alt="雷射切割機內部機械結構3D剖面圖">
+                    
+                    <!-- 疊加絕對定位的繁體中文編號標註點 -->
+                    <div class="label-dot dot-laser-tube" title="雷射管與雷射源">1</div>
+                    <div class="label-dot dot-mirror-1" title="第一反射鏡">2</div>
+                    <div class="label-dot dot-mirror-2" title="第二反射鏡">3</div>
+                    <div class="label-dot dot-laser-head" title="雷射加工頭">4</div>
+                    <div class="label-dot dot-xy-rails" title="X-Y軸導軌軌道">5</div>
+                    <div class="label-dot dot-honeycomb" title="蜂巢工作平台">6</div>
+                    <div class="label-dot dot-control-panel" title="控制面板">7</div>
+                    <div class="label-dot dot-exhaust" title="排煙系統管道">8</div>
+                    <div class="label-dot dot-cooling" title="冷卻水循環系統">9</div>
+                    <div class="label-dot dot-air-assist" title="空氣輔助系統">10</div>
+                </div>
+
+                <!-- 組件說明列表 -->
+                <div class="component-grid">
+                    <div class="comp-item">
+                        <div class="comp-num">1</div>
+                        <div>
+                            <span class="comp-title">雷射管/雷射源</span>
+                            <p style="color: #64748b; font-size:12px;">產生高能量原始光束的雷射源管體。</p>
+                        </div>
+                    </div>
+                    <div class="comp-item">
+                        <div class="comp-num">2</div>
+                        <div>
+                            <span class="comp-title">第一反射鏡</span>
+                            <p style="color: #64748b; font-size:12px;">固定於後方，改變射出雷射方向至Y軸軌道。</p>
+                        </div>
+                    </div>
+                    <div class="comp-item">
+                        <div class="comp-num">3</div>
+                        <div>
+                            <span class="comp-title">第二反射鏡</span>
+                            <p style="color: #64748b; font-size:12px;">安裝於X軸移動座上，導引雷射至雷射頭。</p>
+                        </div>
+                    </div>
+                    <div class="comp-item">
+                        <div class="comp-num">4</div>
+                        <div>
+                            <span class="comp-title">聚焦鏡與雷射頭</span>
+                            <p style="color: #64748b; font-size:12px;">雷射頭內裝聚焦透鏡，將光束聚集成極小光點。</p>
+                        </div>
+                    </div>
+                    <div class="comp-item">
+                        <div class="comp-num">5</div>
+                        <div>
+                            <span class="comp-title">X-Y軸導軌系統</span>
+                            <p style="color: #64748b; font-size:12px;">由步進馬達與軌道控制雷射頭在平面精確移動。</p>
+                        </div>
+                    </div>
+                    <div class="comp-item">
+                        <div class="comp-num">6</div>
+                        <div>
+                            <span class="comp-title">蜂巢工作平台</span>
+                            <p style="color: #64748b; font-size:12px;">黑色蜂巢鋼板，可支撐板材、防止焦黑並利於排煙。</p>
+                        </div>
+                    </div>
+                    <div class="comp-item">
+                        <div class="comp-num">7</div>
+                        <div>
+                            <span class="comp-title">液晶控制面板</span>
+                            <p style="color: #64748b; font-size:12px;">顯示目前檔案、設定原點位置並控制開機加工。</p>
+                        </div>
+                    </div>
+                    <div class="comp-item">
+                        <div class="comp-num">8</div>
+                        <div>
+                            <span class="comp-title">排煙軟管系統</span>
+                            <p style="color: #64748b; font-size:12px;">強力抽風機將氣化產生的毒煙與碎屑排出室外。</p>
+                        </div>
+                    </div>
+                    <div class="comp-item">
+                        <div class="comp-num">9</div>
+                        <div>
+                            <span class="comp-title">水冷式冷卻機</span>
+                            <p style="color: #64748b; font-size:12px;">常規冷卻循環水，防止雷射管溫度過高爆裂損壞。</p>
+                        </div>
+                    </div>
+                    <div class="comp-item">
+                        <div class="comp-num">10</div>
+                        <div>
+                            <span class="comp-title">空氣輔助裝置</span>
+                            <p style="color: #64748b; font-size:12px;">雷射嘴強力吹風，冷卻切口邊緣、預防焦黑起火。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右欄：優缺點與應用 -->
+            <div class="side-col">
+                
+                <!-- G. 設備優缺點比較 -->
+                <div class="card theme-green">
+                    <div class="card-header">
+                        <span class="num">G</span>
+                        <span>加工優缺點分析</span>
+                    </div>
+                    <ul class="bullet-list">
+                        <li><strong>優點：無接觸加工</strong>。材料無須物理夾緊固定，不會受壓變形；切縫窄、邊緣光滑；加工速度快且產能穩定。</li>
+                        <li><strong>缺點：材料限制</strong>。不適合加工含氯塑料（如 PVC，會產生致命劇毒氯氣）；過厚材料難以一次切透。</li>
+                    </ul>
+                </div>
+
+                <!-- F. 實際應用領域 -->
+                <div class="card theme-blue">
+                    <div class="card-header">
+                        <span class="num">F</span>
+                        <span>跨學門實際應用領域</span>
+                    </div>
+                    <ul class="bullet-list">
+                        <li><strong>創客STEAM課程</strong>：結構模型設計、自製卡榫玩具教具。</li>
+                        <li><strong>模型與建築設計</strong>：沙盤建築比例模型、精密機構傳動齒輪。</li>
+                        <li><strong>廣告招牌與展示</strong>：壓克力發光字、木刻門牌、客製化皮革雕刻。</li>
+                        <li><strong>文創客製禮品</strong>：酒瓶雕刻、客製印章、手機殼雷雕。</li>
+                    </ul>
+                </div>
+
+                <!-- J. 學習小提示 -->
+                <div class="card theme-orange">
+                    <div class="card-header">
+                        <span class="num">J</span>
+                        <span>加工實務小提示</span>
+                    </div>
+                    <ul class="bullet-list">
+                        <li><strong>焦距必須精準對焦</strong>：對焦不準會使光點變粗，能量無法集中，導致材料切不穿、边缘焦黑。</li>
+                        <li><strong>不同材料設定測試</strong>：使用前先在邊角測試小區塊，尋找最佳「功率」與「速度」的加工參數組合。</li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- 下方區塊：分類表格與學習步驟 -->
+        <div class="bottom-section">
+            
+            <!-- 三大雷射源分類比較 -->
+            <div>
+                <h3 style="font-size:16px; font-weight:800; color:var(--primary-blue); margin-bottom:12px;">E. 常用三大主流雷射源分類比較</h3>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>雷射類型</th>
+                            <th>適合加工材料</th>
+                            <th>核心優勢</th>
+                            <th>主要限制 / 缺點</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>CO2 二氧化碳雷射</strong></td>
+                            <td>木材、壓克力、皮革、紙板、織物等非金屬</td>
+                            <td>非金屬加工首選，切口邊緣非常光滑</td>
+                            <td>無法直接切割或深雕金屬材料</td>
+                        </tr>
+                        <tr>
+                            <td><strong>光纖 Fiber 雷射</strong></td>
+                            <td>不鏽鋼、鋁、銅、黃銅等各種金屬與部分塑料</td>
+                            <td>電光轉換率高，加工金屬速度極快且壽命長</td>
+                            <td>設備成本非常高，完全無法加工木頭與皮革</td>
+                        </tr>
+                        <tr>
+                            <td><strong>半導體/二極體雷射</strong></td>
+                            <td>薄木板、皮革、紙張、部分深色壓克力</td>
+                            <td>設備體積小巧，價格平易近人，適合個人創客</td>
+                            <td>功率通常較低，加工速度慢，無法切割厚材</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 學習路徑步驟 -->
+            <div>
+                <h3 style="font-size:16px; font-weight:800; color:var(--primary-blue); margin-bottom:12px;">I. 七步驟快速學習路徑</h3>
+                <div class="path-steps">
+                    <div class="step-item">
+                        <span class="step-num">Step 1</span>
+                        <span class="step-name">安全規範</span>
+                        <span style="color:#64748b;">學習設備警示圖標與安全防護步驟。</span>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">Step 2</span>
+                        <span class="step-name">材料認識</span>
+                        <span style="color:#64748b;">了解哪些材料可加工，哪些有毒不可放入。</span>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">Step 3</span>
+                        <span class="step-name">2D 繪圖</span>
+                        <span style="color:#64748b;">使用 SVG/DXF 等向量格式繪製設計圖。</span>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">Step 4</span>
+                        <span class="step-name">軟體排版</span>
+                        <span style="color:#64748b;">匯入切割軟體 (如 LightBurn) 進行圖層設定。</span>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">Step 5</span>
+                        <span class="step-name">參數測試</span>
+                        <span style="color:#64748b;">先使用餘料進行切割功率與速度測試。</span>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">Step 6</span>
+                        <span class="step-name">對焦定位</span>
+                        <span style="color:#64748b;">手動或自動調整焦距，確保雷射光束聚焦點精準。</span>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">Step 7</span>
+                        <span class="step-name">加工與清潔</span>
+                        <span style="color:#64748b;">開機排煙加工，結束後靜候排氣，清理殘渣。</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 安全提醒 -->
+        <div class="safety-box">
+            <span class="safety-icon">🚨</span>
+            <div>
+                <h4 style="color:var(--accent-red); font-size:15px; font-weight:800; margin-bottom:4px;">雷射加工安全黃金守則</h4>
+                <p style="font-size:13.5px; line-height:1.5; color:#7f1d1d;">
+                    1. <strong>絕對不留人離開</strong>：加工過程中必須隨時有人在旁守候，因為雷射聚焦溫度高，材料有起火燃燒的風險。<br>
+                    2. <strong>落實排煙通風</strong>：切割時會產生高熱氣化煙霧，必須確認排煙軟管正常排氣，且不可切割 PVC (會產生劇毒氣體)！<br>
+                    3. <strong>配戴合適波長護目鏡</strong>：雷射漫反射亦會對眼睛造成永久失明性傷害，不可肉眼直視雷射光束！
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
