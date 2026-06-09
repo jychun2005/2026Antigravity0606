@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>霓虹深淵：極速貪食蛇 | Retro Neon Snake</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-dark: #070a13;
+            --panel-bg: rgba(15, 23, 42, 0.6);
+            --border-neon-green: #39ff14;
+            --border-neon-pink: #ff007f;
+            --border-neon-blue: #00f0ff;
+            --text-neon: #fff;
+            --font-orbitron: 'Orbitron', sans-serif;
+            --font-outfit: 'Outfit', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(at 20% 20%, rgba(255, 0, 127, 0.15) 0px, transparent 50%),
+                radial-gradient(at 80% 80%, rgba(0, 240, 255, 0.15) 0px, transparent 50%);
+            color: #f8fafc;
+            font-family: var(--font-outfit);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .game-container {
+            max-width: 900px;
+            width: 100%;
+            background: var(--panel-bg);
+            border: 2px solid var(--border-neon-blue);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.2), inset 0 0 15px rgba(0, 240, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 30px;
+            display: grid;
+            grid-template-columns: 1.2fr 1.8fr;
+            gap: 30px;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .game-container {
+                grid-template-columns: 1fr;
+                padding: 15px;
+                gap: 15px;
+            }
+        }
+
+        /* 側邊資訊欄 */
+        .info-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .logo-area h1 {
+            font-family: var(--font-orbitron);
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background: linear-gradient(45deg, var(--border-neon-blue), var(--border-neon-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+            margin-bottom: 5px;
+        }
+
+        .logo-area p {
+            font-size: 13px;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* 計分板 */
+        .score-board {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .score-card {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 15px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .score-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+        }
+
+        .score-card.current::after {
+            background: var(--border-neon-green);
+            box-shadow: 0 0 8px var(--border-neon-green);
+        }
+
+        .score-card.best::after {
+            background: var(--border-neon-pink);
+            box-shadow: 0 0 8px var(--border-neon-pink);
+        }
+
+        .score-label {
+            font-size: 11px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 5px;
+        }
+
+        .score-val {
+            font-family: var(--font-orbitron);
+            font-size: 32px;
+            font-weight: 900;
+            color: #fff;
+        }
+
+        /* 控制面板 */
+        .settings-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .setting-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .setting-group label {
+            font-size: 12px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        select.neon-select {
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            border: 1px solid var(--border-neon-blue);
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 14px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        select.neon-select:focus {
+            box-shadow: 0 0 8px var(--border-neon-blue);
+        }
+
+        /* 遊戲按鈕 */
+        .btn-action {
+            font-family: var(--font-orbitron);
+            font-weight: 700;
+            font-size: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 14px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-start {
+            background: var(--border-neon-green);
+            color: #000;
+            box-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
+        }
+
+        .btn-start:hover {
+            box-shadow: 0 0 20px var(--border-neon-green);
+            transform: translateY(-2px);
+        }
+
+        .btn-pause {
+            background: transparent;
+            color: var(--border-neon-blue);
+            border: 1px solid var(--border-neon-blue);
+        }
+
+        .btn-pause:hover {
+            background: rgba(0, 240, 255, 0.1);
+            box-shadow: 0 0 12px var(--border-neon-blue);
+        }
+
+        .btn-audio {
+            background: transparent;
+            color: var(--border-neon-pink);
+            border: 1px solid var(--border-neon-pink);
+        }
+
+        .btn-audio:hover {
+            background: rgba(255, 0, 127, 0.1);
+            box-shadow: 0 0 12px var(--border-neon-pink);
+        }
+
+        /* 畫布區域 */
+        .canvas-area {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        canvas#gameCanvas {
+            background-color: #03050c;
+            border: 3px solid var(--border-neon-pink);
+            border-radius: 16px;
+            box-shadow: 0 0 20px rgba(255, 0, 127, 0.3);
+            display: block;
+            max-width: 100%;
+            aspect-ratio: 1;
+        }
+
+        /* 螢幕震動動畫 */
+        @keyframes shake {
+            0%, 100% { transform: translate(0, 0); }
+            10%, 30%, 50%, 70%, 90% { transform: translate(-5px, -3px); }
+            20%, 40%, 60%, 80% { transform: translate(5px, 3px); }
+        }
+
+        canvas.shake {
+            animation: shake 0.4s ease-out;
+        }
+
+        /* 虛擬手把 (僅在觸控端或小螢幕顯示) */
+        .mobile-controls {
+            display: none;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 8px;
+            width: 150px;
+            height: 150px;
+            margin: 20px auto 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-controls {
+                display: grid;
+            }
+        }
+
+        .ctrl-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            user-select: none;
+            font-size: 20px;
+        }
+
+        .ctrl-btn:active {
+            background: rgba(0, 240, 255, 0.2);
+            border-color: var(--border-neon-blue);
+            box-shadow: 0 0 10px var(--border-neon-blue);
+        }
+
+        .ctrl-up { grid-column: 2; grid-row: 1; }
+        .ctrl-left { grid-column: 1; grid-row: 2; }
+        .ctrl-right { grid-column: 3; grid-row: 2; }
+        .ctrl-down { grid-column: 2; grid-row: 3; }
+
+        /* Game Over 覆蓋層 */
+        .overlay {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(7, 10, 19, 0.85);
+            backdrop-filter: blur(8px);
+            border-radius: 16px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            z-index: 5;
+        }
+
+        .overlay h2 {
+            font-family: var(--font-orbitron);
+            font-size: 36px;
+            font-weight: 900;
+            color: var(--border-neon-pink);
+            text-shadow: 0 0 15px rgba(255, 0, 127, 0.6);
+            letter-spacing: 2px;
+            animation: pulse 1.5s infinite alternate;
+        }
+
+        .overlay p {
+            font-size: 16px;
+            color: #94a3b8;
+        }
+
+        .btn-restart {
+            background: var(--border-neon-blue);
+            color: #000;
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+            font-family: var(--font-orbitron);
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 10px 25px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-restart:hover {
+            box-shadow: 0 0 15px var(--border-neon-blue);
+            transform: scale(1.05);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            100% { transform: scale(1.05); opacity: 1; }
+        }
+
+        /* 說明 */
+        .instructions {
+            margin-top: 25px;
+            font-size: 13px;
+            color: #64748b;
+            text-align: center;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="game-container">
+        <!-- 資訊與控制面板 -->
+        <div class="info-panel">
+            <div class="logo-area">
+                <h1>霓虹深淵：極速貪食蛇</h1>
+                <p>CYBERPUNK NEON SNAKE</p>
+            </div>
+
+            <!-- 計分板 -->
+            <div class="score-board">
+                <div class="score-card current">
+                    <div class="score-label">SCORE</div>
+                    <div class="score-val" id="current-score">0</div>
+                </div>
+                <div class="score-card best">
+                    <div class="score-label">BEST</div>
+                    <div class="score-val" id="best-score">0</div>
+                </div>
+            </div>
+
+            <!-- 設定區 -->
+            <div class="settings-panel">
+                <div class="setting-group">
+                    <label for="speed-select">速度與難度</label>
+                    <select id="speed-select" class="neon-select">
+                        <option value="120">簡單 (EASY)</option>
+                        <option value="90" selected>中等 (NORMAL)</option>
+                        <option value="60">困難 (HARD)</option>
+                        <option value="40">極速 (EXPERT)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- 控制按鈕 -->
+            <button class="btn-action btn-start" id="btn-start">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                開始遊戲
+            </button>
+            <button class="btn-action btn-pause" id="btn-pause" disabled>
+                暫停
+            </button>
+            <button class="btn-action btn-audio" id="btn-audio">
+                🔊 靜音：關閉
+            </button>
+        </div>
+
+        <!-- 遊戲畫布與覆蓋層 -->
+        <div class="canvas-area">
+            <canvas id="gameCanvas" width="400" height="400"></canvas>
+            
+            <!-- Game Over 覆蓋層 -->
+            <div class="overlay" id="gameover-overlay">
+                <h2>GAME OVER</h2>
+                <p>本次得分：<span id="final-score" style="color:#fff; font-weight:700;">0</span> 分</p>
+                <button class="btn-restart" onclick="resetGame()">再試一次</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 移動端觸控把手 -->
+    <div class="mobile-controls">
+        <div class="ctrl-btn ctrl-up" onclick="changeDirectionMobile('up')">▲</div>
+        <div class="ctrl-btn ctrl-left" onclick="changeDirectionMobile('left')">◀</div>
+        <div class="ctrl-btn ctrl-right" onclick="changeDirectionMobile('right')">▶</div>
+        <div class="ctrl-btn ctrl-down" onclick="changeDirectionMobile('down')">▼</div>
+    </div>
+
+    <div class="instructions">
+        鍵盤控制：使用 方向鍵 (↑ ↓ ← →) 或 WASD 鍵控制方向<br>
+        空白鍵 (Space)：暫停 / 繼續
+    </div>
+
+    <script>
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+        const currentScoreEl = document.getElementById("current-score");
+        const bestScoreEl = document.getElementById("best-score");
+        const finalScoreEl = document.getElementById("final-score");
+        const gameoverOverlay = document.getElementById("gameover-overlay");
+        
+        const btnStart = document.getElementById("btn-start");
+        const btnPause = document.getElementById("btn-pause");
+        const btnAudio = document.getElementById("btn-audio");
+        const speedSelect = document.getElementById("speed-select");
+
+        // 載入最高分數
+        let bestScore = localStorage.getItem("snake_best_score") || 0;
+        bestScoreEl.innerText = bestScore;
+
+        // 網格定義
+        const gridSize = 20; // 每個格子的大小
+        const tileCount = canvas.width / gridSize; // 橫豎格子數量 (20x20)
+
+        // 遊戲狀態變數
+        let snake = [];
+        let food = { x: 0, y: 0 };
+        let dx = gridSize; // X 速度
+        let dy = 0;        // Y 速度
+        let score = 0;
+        let gameInterval = null;
+        let isPaused = false;
+        let isRunning = false;
+        let nextDirection = { x: gridSize, y: 0 }; // 緩衝下一步方向，防止快速雙按鍵撞自己
+        let particles = []; // 吃食物粒子包
+        let isMuted = false;
+
+        // Web Audio API 合成器音效
+        let audioCtx = null;
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        function playSound(freq, type, duration) {
+            if (isMuted) return;
+            initAudio();
+            if (!audioCtx) return;
+            
+            try {
+                let osc = audioCtx.createOscillator();
+                let gain = audioCtx.createGain();
+                
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                
+                gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+                
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch(e) {
+                console.log("Audio error:", e);
+            }
+        }
+
+        function playEatSound() {
+            playSound(523.25, "sine", 0.1); // C5 短音
+            setTimeout(() => playSound(659.25, "sine", 0.15), 80); // E5 短音
+        }
+
+        function playCrashSound() {
+            playSound(150, "sawtooth", 0.4); // 鋸齒波低音
+            setTimeout(() => playSound(80, "sawtooth", 0.5), 100);
+        }
+
+        // 音訊按鈕切換
+        btnAudio.addEventListener("click", () => {
+            isMuted = !isMuted;
+            btnAudio.innerText = isMuted ? "🔇 靜音：開啟" : "🔊 靜音：關閉";
+        });
+
+        // 初始化遊戲位置
+        function resetGameData() {
+            // 蛇身初始長度 3，橫向，出現在中間偏左
+            snake = [
+                { x: 6 * gridSize, y: 10 * gridSize },
+                { x: 5 * gridSize, y: 10 * gridSize },
+                { x: 4 * gridSize, y: 10 * gridSize }
+            ];
+            dx = gridSize;
+            dy = 0;
+            nextDirection = { x: gridSize, y: 0 };
+            score = 0;
+            currentScoreEl.innerText = score;
+            particles = [];
+            generateFood();
+        }
+
+        // 隨機產生食物
+        function generateFood() {
+            let onSnake = true;
+            while (onSnake) {
+                food.x = Math.floor(Math.random() * tileCount) * gridSize;
+                food.y = Math.floor(Math.random() * tileCount) * gridSize;
+                // 檢查是否產生在蛇身上
+                onSnake = snake.some(part => part.x === food.x && part.y === food.y);
+            }
+        }
+
+        // 粒子爆發特效
+        function createFoodParticles(x, y) {
+            const colors = ['#00f0ff', '#ff007f', '#39ff14', '#ffff00'];
+            for (let i = 0; i < 12; i++) {
+                particles.push({
+                    x: x + gridSize / 2,
+                    y: y + gridSize / 2,
+                    vx: (Math.random() - 0.5) * 6,
+                    vy: (Math.random() - 0.5) * 6,
+                    radius: Math.random() * 3 + 1,
+                    alpha: 1,
+                    decay: Math.random() * 0.05 + 0.03,
+                    color: colors[Math.floor(Math.random() * colors.length)]
+                });
+            }
+        }
+
+        // 更新粒子物理
+        function updateParticles() {
+            for (let i = particles.length - 1; i >= 0; i--) {
+                let p = particles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.alpha -= p.decay;
+                if (p.alpha <= 0) {
+                    particles.splice(i, 1);
+                }
+            }
+        }
+
+        // 繪製粒子
+        function drawParticles() {
+            particles.forEach(p => {
+                ctx.save();
+                ctx.globalAlpha = p.alpha;
+                ctx.fillStyle = p.color;
+                ctx.shadowBlur = 8;
+                ctx.shadowColor = p.color;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            });
+        }
+
+        // 遊戲主循環更新
+        function mainLoop() {
+            if (isPaused || !isRunning) return;
+
+            // 套用緩衝的方向
+            dx = nextDirection.x;
+            dy = nextDirection.y;
+
+            // 計算下一個蛇頭位置
+            const head = { x: snake[0].x + dx, y: snake[0].y + dy };
+
+            // 邊界碰撞檢測與咬自己檢測
+            const hitWall = head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height;
+            const hitSelf = snake.some(part => part.x === head.x && part.y === head.y);
+
+            if (hitWall || hitSelf) {
+                gameOver();
+                return;
+            }
+
+            // 將新蛇頭插入最前
+            snake.unshift(head);
+
+            // 吃食物檢測
+            if (head.x === food.x && head.y === food.y) {
+                score += 10;
+                currentScoreEl.innerText = score;
+                createFoodParticles(food.x, food.y);
+                playEatSound();
+                generateFood();
+                // 吃到食物，蛇尾不截斷，蛇就變長了
+            } else {
+                // 沒有吃到，則彈出蛇尾
+                snake.pop();
+            }
+
+            updateParticles();
+            drawCanvas();
+        }
+
+        // 螢幕震動與死亡結束
+        function gameOver() {
+            isRunning = false;
+            clearInterval(gameInterval);
+            
+            // 螢幕震動
+            canvas.classList.add("shake");
+            playCrashSound();
+            setTimeout(() => canvas.classList.remove("shake"), 400);
+
+            // 更新最高分數
+            if (score > bestScore) {
+                bestScore = score;
+                bestScoreEl.innerText = bestScore;
+                localStorage.setItem("snake_best_score", bestScore);
+            }
+
+            finalScoreEl.innerText = score;
+            gameoverOverlay.style.display = "flex";
+            btnPause.disabled = true;
+            btnStart.disabled = false;
+        }
+
+        // 畫布渲染
+        function drawCanvas() {
+            // 清理畫布
+            ctx.fillStyle = "#03050c";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // 繪製賽博朋克背景網格線
+            ctx.strokeStyle = "rgba(255, 255, 255, 0.02)";
+            ctx.lineWidth = 1;
+            for (let i = 0; i < canvas.width; i += gridSize) {
+                ctx.beginPath();
+                ctx.moveTo(i, 0);
+                ctx.lineTo(i, canvas.height);
+                ctx.stroke();
+                
+                ctx.beginPath();
+                ctx.moveTo(0, i);
+                ctx.lineTo(canvas.width, i);
+                ctx.stroke();
+            }
+
+            // 繪製粒子
+            drawParticles();
+
+            // 繪製發光食物 (霓虹粉紅)
+            ctx.save();
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = varColor('--border-neon-pink');
+            ctx.fillStyle = varColor('--border-neon-pink');
+            ctx.beginPath();
+            let radius = gridSize / 2 - 2;
+            // 呼吸脈動效果
+            let pulse = Math.sin(Date.now() / 150) * 1.5;
+            ctx.arc(food.x + gridSize / 2, food.y + gridSize / 2, radius + pulse, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+
+            // 繪製發光蛇身 (霓虹綠)
+            snake.forEach((part, index) => {
+                ctx.save();
+                const isHead = index === 0;
+                
+                ctx.shadowBlur = isHead ? 15 : 8;
+                ctx.shadowColor = varColor('--border-neon-green');
+                ctx.fillStyle = isHead ? "#aaffaa" : varColor('--border-neon-green');
+                
+                // 圓角蛇身
+                let offset = 1;
+                ctx.beginPath();
+                ctx.roundRect(part.x + offset, part.y + offset, gridSize - (offset * 2), gridSize - (offset * 2), isHead ? 8 : 4);
+                ctx.fill();
+
+                // 繪製蛇眼
+                if (isHead) {
+                    ctx.fillStyle = "#000";
+                    // 根據移動方向畫眼睛
+                    let eyeOffset = 4;
+                    if (dx > 0) { // 向右
+                        ctx.fillRect(part.x + gridSize - 7, part.y + 4, 3, 3);
+                        ctx.fillRect(part.x + gridSize - 7, part.y + gridSize - 7, 3, 3);
+                    } else if (dx < 0) { // 向左
+                        ctx.fillRect(part.x + 4, part.y + 4, 3, 3);
+                        ctx.fillRect(part.x + 4, part.y + gridSize - 7, 3, 3);
+                    } else if (dy > 0) { // 向下
+                        ctx.fillRect(part.x + 4, part.y + gridSize - 7, 3, 3);
+                        ctx.fillRect(part.x + gridSize - 7, part.y + gridSize - 7, 3, 3);
+                    } else if (dy < 0) { // 向上
+                        ctx.fillRect(part.x + 4, part.y + 4, 3, 3);
+                        ctx.fillRect(part.x + gridSize - 7, part.y + 4, 3, 3);
+                    }
+                }
+                ctx.restore();
+            });
+        }
+
+        // 取 CSS 變數顏色
+        function varColor(name) {
+            return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+        }
+
+        // 重新開始遊戲
+        function resetGame() {
+            gameoverOverlay.style.display = "none";
+            startGame();
+        }
+
+        // 開始遊戲
+        function startGame() {
+            initAudio();
+            resetGameData();
+            isPaused = false;
+            isRunning = true;
+            btnPause.innerText = "暫停";
+            btnPause.disabled = false;
+            btnStart.disabled = true;
+
+            const speed = parseInt(speedSelect.value);
+            
+            if (gameInterval) clearInterval(gameInterval);
+            gameInterval = setInterval(mainLoop, speed);
+        }
+
+        // 暫停切換
+        function togglePause() {
+            if (!isRunning) return;
+            isPaused = !isPaused;
+            btnPause.innerText = isPaused ? "繼續" : "暫停";
+            if (isPaused) {
+                // 畫上暫停浮層文字
+                ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = "#fff";
+                ctx.font = "bold 24px var(--font-orbitron)";
+                ctx.textAlign = "center";
+                ctx.fillText("GAME PAUSED", canvas.width / 2, canvas.height / 2);
+            }
+        }
+
+        btnStart.addEventListener("click", startGame);
+        btnPause.addEventListener("click", togglePause);
+
+        // 鍵盤操控 (防止反向直撞)
+        document.addEventListener("keydown", (e) => {
+            if (!isRunning) {
+                // 按空白鍵可以開始
+                if (e.key === " " || e.code === "Space") {
+                    startGame();
+                }
+                return;
+            }
+
+            // 空白鍵暫停
+            if (e.key === " " || e.code === "Space") {
+                e.preventDefault();
+                togglePause();
+                return;
+            }
+
+            if (isPaused) return;
+
+            const keyPressed = e.key.toLowerCase();
+            const goingUp = dy === -gridSize;
+            const goingDown = dy === gridSize;
+            const goingRight = dx === gridSize;
+            const goingLeft = dx === -gridSize;
+
+            if ((keyPressed === "arrowup" || keyPressed === "w") && !goingDown) {
+                nextDirection = { x: 0, y: -gridSize };
+            }
+            if ((keyPressed === "arrowdown" || keyPressed === "s") && !goingUp) {
+                nextDirection = { x: 0, y: gridSize };
+            }
+            if ((keyPressed === "arrowleft" || keyPressed === "a") && !goingRight) {
+                nextDirection = { x: -gridSize, y: 0 };
+            }
+            if ((keyPressed === "arrowright" || keyPressed === "d") && !goingLeft) {
+                nextDirection = { x: gridSize, y: 0 };
+            }
+        });
+
+        // 行動端操控
+        function changeDirectionMobile(dir) {
+            if (!isRunning || isPaused) return;
+            
+            const goingUp = dy === -gridSize;
+            const goingDown = dy === gridSize;
+            const goingRight = dx === gridSize;
+            const goingLeft = dx === -gridSize;
+
+            if (dir === 'up' && !goingDown) {
+                nextDirection = { x: 0, y: -gridSize };
+            }
+            if (dir === 'down' && !goingUp) {
+                nextDirection = { x: 0, y: gridSize };
+            }
+            if (dir === 'left' && !goingRight) {
+                nextDirection = { x: -gridSize, y: 0 };
+            }
+            if (dir === 'right' && !goingLeft) {
+                nextDirection = { x: gridSize, y: 0 };
+            }
+        }
+
+        // 初始化靜態畫布
+        resetGameData();
+        drawCanvas();
+    </script>
+</body>
+</html>
