@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>國小四年級數學段考複習卷：周長與面積</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #f8fafc;
+            --container-bg: #ffffff;
+            --text-color: #1e293b;
+            --text-muted: #64748b;
+            --primary-color: #4f46e5;
+            --primary-hover: #4338ca;
+            --primary-light: #e0e7ff;
+            --border-color: #e2e8f0;
+            --success-color: #10b981;
+            --success-bg: #ecfdf5;
+            --error-color: #ef4444;
+            --error-bg: #fef2f2;
+            --accent-color: #f59e0b;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --card-radius: 16px;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #0f172a;
+            --container-bg: #1e293b;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --primary-color: #6366f1;
+            --primary-hover: #4f46e5;
+            --primary-light: #312e81;
+            --border-color: #334155;
+            --success-color: #34d399;
+            --success-bg: #064e3b;
+            --error-color: #f87171;
+            --error-bg: #7f1d1d;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--container-bg);
+            border-radius: var(--card-radius);
+            box-shadow: var(--shadow-lg);
+            padding: 30px;
+            position: relative;
+        }
+
+        header {
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        button.btn-icon {
+            background: none;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+        }
+
+        button.btn-icon:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .exam-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+
+        .badge {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        /* 學生資料欄 */
+        .student-meta {
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .input-group label {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .input-group input {
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--container-bg);
+            color: var(--text-color);
+            font-size: 15px;
+            outline: none;
+        }
+
+        .input-group input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        /* 浮動計時器 */
+        .timer-banner {
+            position: sticky;
+            top: 20px;
+            z-index: 10;
+            background-color: var(--container-bg);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-md);
+            padding: 12px 20px;
+            border-radius: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .timer-display {
+            font-family: 'Outfit', sans-serif;
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* 題目列表 */
+        .question-card {
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 25px;
+            background-color: var(--container-bg);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+        }
+
+        .question-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .q-number {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--primary-color);
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 6px;
+            flex-shrink: 0;
+            margin-top: 3px;
+        }
+
+        .q-text {
+            font-size: 17px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .options-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            background-color: var(--bg-color);
+            user-select: none;
+        }
+
+        .option-item:hover {
+            border-color: var(--primary-color);
+            background-color: var(--primary-light);
+        }
+
+        .option-item input[type="radio"] {
+            margin-right: 12px;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary-color);
+            cursor: pointer;
+        }
+
+        .option-text {
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        /* 反饋與解析 */
+        .explanation-box {
+            display: none;
+            margin-top: 20px;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            border-left: 4px solid var(--primary-color);
+            background-color: var(--bg-color);
+        }
+
+        .explanation-box.visible {
+            display: block;
+        }
+
+        .exp-section {
+            margin-bottom: 10px;
+        }
+
+        .exp-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .exp-title {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .option-item.correct {
+            background-color: var(--success-bg) !important;
+            border-color: var(--success-color) !important;
+            color: var(--success-color) !important;
+            font-weight: bold;
+        }
+
+        .option-item.incorrect {
+            background-color: var(--error-bg) !important;
+            border-color: var(--error-color) !important;
+            color: var(--error-color) !important;
+        }
+
+        /* 提交按鈕 */
+        .submit-area {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .btn-submit {
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+            padding: 14px 40px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        /* 成績彈出卡 - Glassmorphism */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-card {
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border-radius: 24px;
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            color: #1e293b;
+        }
+
+        [data-theme="dark"] .modal-card {
+            background: rgba(30, 41, 59, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #f8fafc;
+        }
+
+        .score-ring {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 20px auto;
+        }
+
+        .score-ring svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .score-ring circle {
+            fill: none;
+            stroke-width: 12;
+        }
+
+        .score-ring .bg {
+            stroke: var(--border-color);
+        }
+
+        .score-ring .progress {
+            stroke: var(--primary-color);
+            stroke-dasharray: 439.8;
+            stroke-dashoffset: 439.8;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 1.5s ease-out;
+        }
+
+        .score-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Outfit', sans-serif;
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--text-color);
+        }
+
+        .score-grade {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        .score-feedback {
+            font-size: 16px;
+            color: var(--text-muted);
+            margin-bottom: 25px;
+        }
+
+        .score-details {
+            display: flex;
+            justify-content: space-around;
+            background-color: rgba(0, 0, 0, 0.05);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        [data-theme="dark"] .score-details {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .detail-item span {
+            display: block;
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--primary-color);
+        }
+
+        .btn-modal-close {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 30px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-modal-close:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* 列印媒體查詢 */
+        @media print {
+            body {
+                background-color: #ffffff;
+                color: #000000;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                padding: 0;
+                max-width: 100%;
+            }
+            .controls, .timer-banner, .submit-area, .btn-icon {
+                display: none !important;
+            }
+            .student-meta {
+                border: 2px solid #000000;
+                border-radius: 0;
+                background: none;
+                grid-template-columns: repeat(3, 1fr);
+                margin-bottom: 20px;
+                padding: 10px;
+            }
+            .student-meta::after {
+                content: "得分：___________";
+                font-weight: bold;
+                font-size: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+            }
+            .question-card {
+                border: none;
+                border-bottom: 1px dashed #000000;
+                border-radius: 0;
+                box-shadow: none;
+                margin-bottom: 15px;
+                padding: 10px 0;
+                page-break-inside: avoid;
+            }
+            .option-item {
+                border: none;
+                background: none !important;
+                color: #000000 !important;
+                padding: 4px 0;
+            }
+            .option-item input[type="radio"] {
+                border: 1px solid #000000;
+            }
+            /* 控制答案的印出 */
+            .explanation-box {
+                display: none;
+            }
+            body.print-answers .explanation-box {
+                display: block !important;
+                border: 1px solid #666;
+                background: #f5f5f5 !important;
+            }
+            body.print-answers .option-item.correct::after {
+                content: " ✔ (正確答案)";
+                color: green;
+                font-weight: bold;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 頂部標頭 -->
+        <header>
+            <div class="header-top">
+                <h1>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    四年級數學段考複習卷
+                </h1>
+                <div class="controls">
+                    <!-- 教師解析按鈕 -->
+                    <button class="btn-icon" id="btn-teacher-mode" title="切換教師解析模式">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                    </button>
+                    <!-- 列印按鈕 -->
+                    <button class="btn-icon" id="btn-print" title="列印考卷">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
+                    </button>
+                    <!-- 深色模式按鈕 -->
+                    <button class="btn-icon" id="btn-theme-toggle" title="切換深淺色模式">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                    </button>
+                </div>
+            </div>
+            <div class="exam-info">
+                <span>單元：<strong style="color: var(--text-color);">周長與面積</strong></span>
+                <span class="badge">限時 40 分鐘</span>
+                <span class="badge">總分 100 分 (共 10 題)</span>
+            </div>
+        </header>
+
+        <!-- 學生基本資料欄 -->
+        <div class="student-meta" id="student-form">
+            <div class="input-group">
+                <label for="student-class">班級</label>
+                <input type="text" id="student-class" placeholder="例如：四年一班" required>
+            </div>
+            <div class="input-group">
+                <label for="student-seat">座號</label>
+                <input type="number" id="student-seat" min="1" max="50" placeholder="例如：12" required>
+            </div>
+            <div class="input-group">
+                <label for="student-name">姓名</label>
+                <input type="text" id="student-name" placeholder="例如：王小明" required>
+            </div>
+        </div>
+
+        <!-- 浮動計時器列 -->
+        <div class="timer-banner" id="timer-bar">
+            <span style="font-size: 15px; font-weight: 500;">⏳ 測驗倒數計時</span>
+            <div class="timer-display" id="time-left">40:00</div>
+        </div>
+
+        <!-- 考卷題目 -->
+        <form id="quiz-form">
+            
+            <!-- 題目 1 -->
+            <div class="question-card" data-q="1">
+                <div class="question-header">
+                    <span class="q-number">1</span>
+                    <span class="q-text">有一塊長方形草地，寬是 39 公尺。園丁早上把長鋪了 99 公尺，下午又鋪了 1 公尺，請問這塊草地的面積是多少平方公尺？下列哪個算式無法算出正確答案？</span>
+                </div>
+                <ul class="options-list">
+                    <li class="option-item" onclick="selectOption(this)">
+                        <input type="radio" name="q1" value="1">
+                        <span class="option-text">(1) 39 × (99 + 1)</span>
+                    </li>
+                    <li class="option-item" onclick="selectOption(this)">
+                        <input type="radio" name="q1" value="2">
+                        <span class="option-text">(2) 39 × 99 + 39</span>
+                    </li>
+                    <li class="option-item" onclick="selectOption(this)">
+                        <input type="radio" name="q1" value="3">
+                        <span class="option-text">(3) 39 × 99 + 99</span>
+                    </li>
+                    <li class="option-item" onclick="selectOption(this)">
+                        <input type="radio" name="q1" value="4">
+                        <span class="option-text">(4) 39 × 1 + 39 × 99</span>
+                    </li>
+                </ul>
+                <div class="explanation-box" id="exp-q1">
+                    <div class="exp-section">
+                        <div class="exp-title">🔑 正確答案：(3)</div>
+                    </div>
+                    <div class="exp-section">
+                        <div class="exp-title">📝 試題解析</div>
+                        <p>本題考查長方形面積公式「長 × 寬」與「乘法分配律」的結合。草地總長為 99 + 1 = 100 公尺，寬為 39 公尺，總面積應為 39 × (99 + 1) 平方公尺。依乘法分配律：39 × (99 + 1) = 39 × 99 + 39 × 1。因此，(1)、(2)（將 39 × 1 簡寫為 39）和 (4) 皆為可算出正確面積的算式。而 (3) 的 39 × 99 + 99 代表有 39 個 99 再加上 1 個 99，等於 40 × 99，無法算出正確結果。</p>
+                    </div>
+                    <div class="exp-section">
+                        <div class="exp-title">⚠️ 干擾項與迷思分析</div>
+                        <p><strong>選項 (1)</strong>：為結合律的標準乘法寫法。學生若選此項表示未看清題目要求「無法算出」的否定句型。<br>
+                        <strong>選項 (2)</strong>：是分配律展開後的常用簡化版（39 × 1 = 39），部分對分配律概念不夠熟悉的学生會誤判其為錯誤算式。<br>
+                        <strong>選項 (4)</strong>：是分配律展開的完整形式（僅調換加法順序），為正確算式。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 題目 2 -->
+            <div class="question-card" data-q="2">
+                <div class="question-header">
+                    <span class="q-number">2</span>
+                    <span class="q-text">有一個長方形的長是 15 公分，寬是 8 公分，請問這個長方形的周長是多少公分？</span>
+                </div>
+                <ul class="options-list">
+                    <li class="option-item" onclick="selectOption(this)">
+                        <input type="radio" name="q2" value="1">
+                        <span class="option-text">(1) 23 公分</span>
+                    </li>
+                    <li class="option-item" onclick="selectOption(this)">
+                        <input type="radio" name="q2" value="2">
+                        <span class="option-text">(2) 30 公分</span>
+                    </li>
+                    <li class="option-item" onclick="selectOption(this)">
+                        <input type="radio" name="q2" value="3">
+                        <span class="option-text">(3) 46 公分</span>
+                    </li>
+                    <li class="option-item" onclick="selectOption(this)">
+                        <input type="radio" name="q2" value="4">
+                        <span class="option-text">(4) 120 公分</span>
+                    </li>
+                </ul>
+                <div class="explanation-box" id="exp-q2">
+                    <div class="exp-section">
+                        <div class="exp-title">🔑 正確答案：(3)</div>
+                    </div>
+                    <div class="exp-section">
+                        <div class="exp-title">📝 試題解析</div>
+                        <p>長方形的周長公式為：（長 + 寬）× 2。將長 15 公分、寬 8 公分代入：(15 + 8) × 2 = 23 × 2 = 46 公分。</p>
+                    </div>
+                    <div class="exp-section">
+                        <div class="exp-title">⚠️ 干擾項與迷思分析</div>
+                        <p><strong>選項 (1)</strong>：直接將長和寬相加（15 + 8 = 23），忘記乘以 2。這是初學周長最常犯的錯誤。<br>
+                        <strong>選項 (2)</strong>：只有將長乘以 2（15 × 2 = 30），漏掉了寬的兩倍。<br>
+                        <strong>選項 (4)</strong>：直接將長乘以寬（15 × 8 = 120），混淆了周長與面積的公式。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 題目 3 -->
+            <div class="question-card" data-q="3">
+                <div class="question-header">
+                    <span class="q-number">3</span>
+                    <span class="q-text">小明的正方形手帕周長是 32 公分，請問這條手帕的面積是多少平方公分？</span>
+                </div>
+                <ul class="options-list">
+                    <li class="option-item" onclick="selectOption(this)">
+                        <input type="radio" name="q3" value="1">
+                        <span class="option-text">(1) 16 平方公分</span>
+                    </li>
+                    <li class="option-item" onclick="selectOption(this)">
+                        <input type="radio" name="q3" value="2">
+                        <span class="option-text">(2) 64 平方公分</span>
+                    </li>
+                    <li class="option-item" onclick="selectOption(this)">
+                        <input type="radio" name="q3" value="3">
+                        <span class="option-text">(3) 128 平方公分</span>
+                    </li>
+                    <li class="option-item" onclick="selectOption(this)">
+                        <input type="radio" name="q3" value="4">
+                        <span class="option-text">(4) 256 平方公分</span>
+                    </li>
+                </ul>
+                <div class="explanation-box" id="exp-q3">
+                    <div class="exp-section">
+                        <div class="exp-title">🔑 正確答案：(2)</div>
+                    </div>
+                    <div class="exp-section">
+                        <div class="exp-title">📝 試題解析</div>
+                        <p>正方形的周長是 32 公分，因此邊長 = 周長 ÷ 4 = 32 ÷ 4 = 8 公分。正方形的面積 = 邊長 × 邊長 = 8 × 8 = 64 平方公分。</p>
+                    </div>
+                    <div class="exp-section">
+                        <div class="exp-title">⚠️ 干擾項與迷思分析</div>
+                        <p><strong>選項 (1)</strong>：誤用周長除以 2 得到 16 當作答案。<br>
+                        <strong>選項 (3)</strong>：計算公式混淆，誤將邊長與周長胡亂相乘。<br>
+                        <strong>選項 (4)</strong>：誤把周長 32 直接當成邊長計算面積（16 × 16 = 256 或其他錯誤推導）。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 題目 4 -->
+            <div class="question-card" data-q="4">
+                <div class="question-header">
+                    <span class="q-number">4</span>
+                    <span class="q-text">學校的公佈欄長是 3 公尺，寬是 2 公尺，請問公佈欄的面積是多少平方公分？</span>
+                </div>
+                <ul class="options-list">
+                    <li class="option-item" onclick="selectOption(this)">
+                        <input type="radio" name="q4" value="1">
+                        <span class="option-text">(1) 6 平方公分</span>
+                    </li>
+                    <li class="option-item" onclick="selectOption(this)">
+                        <input type="radio" name="q4" value="2">
+                        <span class="option-text">(2) 600 平方公分</span>
+                    </li>
+                    <li class="option-item" onclick="selectOption(this)">
+                        <input type="radio" name="q4" value="3">
+                        <span class="option-text">(3) 60000 平方公分</span>
+                    </li>
+                    <li class="option-item" onclick="selectOption(this)">
+                        <input type="radio" name="q4" value="4">
+                        <span class="option-text">(4) 600000 平方公分</span>
+                    </li>
+                </ul>
+                <div class="explanation-box" id="exp-q4">
+                    <div class="exp-section">
+                        <div class="exp-title">🔑 正確答案：(3)</div>
+                    </div>
+                    <div class="exp-section">
+                        <div class="exp-title">📝 試題解析</div>
+                        <p>公佈欄的面積 = 3 × 2 = 6 平方公尺。因為 1 平方公尺 = 10000 平方公分，所以 6 平方公尺 = 6 × 10000 = 60000 平方公分。另一種做法：先換算長寬：3 公尺 = 300 公分，2 公尺 = 200 公分，面積 = 300 × 200 = 60000 平方公分。</p>
+                    </div>
+                    <div class="exp-section">
+                        <div class="exp-title">⚠️ 干擾項與迷思分析</div>
+                        <p><strong>選項 (1)</strong>：直接用公尺計算所得的 6 數值，忘記進行單位換算。<br>
+                        <strong>選項 (2)</strong>：將長度換算率（1 公尺 = 100 公分）錯誤套用在面積換算，以為 1 平方公尺 = 100 平方公分。<br>
+                        <strong>選項 (4)</strong>：多數了一個零，在 0 的個數計算上粗心出錯。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 題目 5 -->
+            <div class="question-card" data-q="5">
+                <div class="question-header">
+                    <span class="q-number">5</span>
+                    <span class="q-text">一個 L 形圖形可以看作是由一個長 10 公分、寬 4 公分的長方形，和一個長 6 公分、寬 4 公分的長方形拼成（不重疊），請問這個 L 形的總面積是多少平方公分？</span>
+                </div>
+                <ul class="options-list">
+                    <li class="option-item" onclick="selectOption(this)">
+                        <input type="radio" name="q5" value="1">
+                        <span class="option-text">(1) 40 平方公分</span>
+                    </li>
+                    <li class="option-item" onclick="selectOption(this)">
+                        <input type="radio" name="q5" value="2">
+                        <span class="option-text">(2) 64 平方公分</span>
+                    </li>
+                    <li class="option-item" onclick="selectOption(this)">
+                        <input type="radio" name="q5" value="3">
+                        <span class="option-text">(3) 80 平方公分</span>
+                    </li>
+                    <li class="option-item" onclick="selectOption(this)">
+                        <input type="radio" name="q5" value="4">
+                        <span class="option-text">(4) 100 平方公分</span>
+                    </li>
+                </ul>
+                <div class="explanation-box" id="exp-q5">
+                    <div class="exp-section">
+                        <div class="exp-title">🔑 正確答案：(2)</div>
+                    </div>
+                    <div class="exp-section">
+                        <div class="exp-title">📝 試題解析</div>
+                        <p>這是一題複合圖形面積計算。使用分割法：總面積 = 第一部分面積 + 第二部分面積 = (10 × 4) + (6 × 4) = 40 + 24 = 64 平方公分。</p>
+                    </div>
+                    <div class="exp-section">
+                        <div class="exp-title">⚠️ 干擾項與迷思分析</div>
+                        <p><strong>選項 (1)</strong>：僅算出了其中一個大長方形的面積（10 × 4 = 40），漏算了另一半。<br>
+                        <strong>選項 (3)</strong>：誤以為是 10 × 8 或進行了其他無效的乘法運算。<br>
+                        <strong>選項 (4)</strong>：將所有數字亂乘或粗心加減得到的數值。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 題目 6 -->
+            <div class="question-card" data-q="6">
+                <div class="question-header">
+                    <span class="q-number">6</span>
+                    <span class="q-text">一個正方形的邊長是 8 公分，如果把 3 個這樣的正方形橫向排成一橫排（邊與邊緊貼拼在一起），拼成一個大長方形，請問這個大長方形的周長是多少公分？</span>
+                </div>
+                <ul class="options-list">
+                    <li class="option-item" onclick="selectOption(this)">
+                        <input type="radio" name="q6" value="1">
+                        <span class="option-text">(1) 96 公分</span>
+                    </li>
+                    <li class="option-item" onclick="selectOption(this)">
+                        <input type="radio" name="q6" value="2">
+                        <span class="option-text">(2) 64 公分</span>
+                    </li>
+                    <li class="option-item" onclick="selectOption(this)">
+                        <input type="radio" name="q6" value="3">
+                        <span class="option-text">(3) 48 公分</span>
+                    </li>
+                    <li class="option-item" onclick="selectOption(this)">
+                        <input type="radio" name="q6" value="4">
+                        <span class="option-text">(4) 32 公分</span>
+                    </li>
+                </ul>
+                <div class="explanation-box" id="exp-q6">
+                    <div class="exp-section">
+                        <div class="exp-title">🔑 正確答案：(2)</div>
+                    </div>
+                    <div class="exp-section">
+                        <div class="exp-title">📝 試題解析</div>
+                        <p>3 個正方形橫向排成一排拼成的大長方形，其長為 8 × 3 = 24 公分，寬依然是原正方形的邊長 8 公分。新長方形的周長 = (長 + 寬) × 2 = (24 + 8) × 2 = 32 × 2 = 64 公分。另一種算法：3 個正方形原本共有 12 條邊，拼合時有 2 個重疊面（即 4 條邊重疊在內部），因此外圍周長剩餘 12 - 4 = 8 條邊的長度，即 8 × 8 = 64 公分。</p>
+                    </div>
+                    <div class="exp-section">
+                        <div class="exp-title">⚠️ 干擾項與迷思分析</div>
+                        <p><strong>選項 (1)</strong>：直接將三個正方形的周長相加（32 × 3 = 96），忽略了重疊邊不應算入周長的概念。<br>
+                        <strong>選項 (3)</strong>：計算公式帶錯，例如 (24 + 8) + 16 或算錯長寬。<br>
+                        <strong>選項 (4)</strong>：只算了一個正方形的周長（8 × 4 = 32）。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 題目 7 -->
+            <div class="question-card" data-q="7">
+                <div class="question-header">
+                    <span class="q-number">7</span>
+                    <span class="q-text">有甲、乙兩個長方形，甲的長是 12 公分、寬是 3 公分；乙的長是 9 公分、寬是 4 公分。下列關於這兩個長方形的敘述何者正確？</span>
+                </div>
+                <ul class="options-list">
+                    <li class="option-item" onclick="selectOption(this)">
+                        <input type="radio" name="q7" value="1">
+                        <span class="option-text">(1) 甲的周長比較大，但面積跟乙一樣大</span>
+                    </li>
+                    <li class="option-item" onclick="selectOption(this)">
+                        <input type="radio" name="q7" value="2">
+                        <span class="option-text">(2) 乙的周長比較大，且面積也比甲大</span>
+                    </li>
+                    <li class="option-item" onclick="selectOption(this)">
+                        <input type="radio" name="q7" value="3">
+                        <span class="option-text">(3) 兩者的面積和周長都一樣大</span>
+                    </li>
+                    <li class="option-item" onclick="selectOption(this)">
+                        <input type="radio" name="q7" value="4">
+                        <span class="option-text">(4) 甲的面積比較大，且周長也比乙大</span>
+                    </li>
+                </ul>
+                <div class="explanation-box" id="exp-q7">
+                    <div class="exp-section">
+                        <div class="exp-title">🔑 正確答案：(1)</div>
+                    </div>
+                    <div class="exp-section">
+                        <div class="exp-title">📝 試題解析</div>
+                        <p>計算甲、乙的周長與面積：<br>
+                        - 甲的面積 = 12 × 3 = 36 平方公分，周長 = (12 + 3) × 2 = 30 公分。<br>
+                        - 乙的面積 = 9 × 4 = 36 平方公分，周長 = (9 + 4) × 2 = 26 公分。<br>
+                        比對後發現，兩者面積相同，但甲的周長（30 公分）大於乙的周長（26 公分）。</p>
+                    </div>
+                    <div class="exp-section">
+                        <div class="exp-title">⚠️ 干擾項與迷思分析</div>
+                        <p><strong>選項 (3)</strong>：學生常有一種迷思「面積相同，周長就相同」，而直覺選擇此項。<br>
+                        <strong>選項 (2) 與 (4)</strong>：多數是由於周長或面積公式代錯、計算錯誤所導致。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 題目 8 -->
+            <div class="question-card" data-q="8">
+                <div class="question-header">
+                    <span class="q-number">8</span>
+                    <span class="q-text">用一條長 24 公分的繩子，分別圍成一個正方形與一個「長 8 公分、寬 4 公分」的長方形。請問這兩個圖形的面積相差多少平方公分？</span>
+                </div>
+                <ul class="options-list">
+                    <li class="option-item" onclick="selectOption(this)">
+                        <input type="radio" name="q8" value="1">
+                        <span class="option-text">(1) 0 平方公分（面積一樣大）</span>
+                    </li>
+                    <li class="option-item" onclick="selectOption(this)">
+                        <input type="radio" name="q8" value="2">
+                        <span class="option-text">(2) 4 平方公分</span>
+                    </li>
+                    <li class="option-item" onclick="selectOption(this)">
+                        <input type="radio" name="q8" value="3">
+                        <span class="option-text">(3) 8 平方公分</span>
+                    </li>
+                    <li class="option-item" onclick="selectOption(this)">
+                        <input type="radio" name="q8" value="4">
+                        <span class="option-text">(4) 12 平方公分</span>
+                    </li>
+                </ul>
+                <div class="explanation-box" id="exp-q8">
+                    <div class="exp-section">
+                        <div class="exp-title">🔑 正確答案：(2)</div>
+                    </div>
+                    <div class="exp-section">
+                        <div class="exp-title">📝 試題解析</div>
+                        <p>- 正方形周長 24 公分，邊長 = 24 ÷ 4 = 6 公分，面積 = 6 × 6 = 36 平方公分。<br>
+                        - 長方形面積 = 8 × 4 = 32 平方公分。<br>
+                        - 兩者面積相差 = 36 - 32 = 4 平方公分。本題考查「周長相同時，正方形的面積會比長方形大」的概念。</p>
+                    </div>
+                    <div class="exp-section">
+                        <div class="exp-title">⚠️ 干擾項與迷思分析</div>
+                        <p><strong>選項 (1)</strong>：學生容易有「周長相同，面積也必定相同」的常見錯誤認知。<br>
+                        <strong>選項 (3) 與 (4)</strong>：大多是因為正方形邊長算錯，或將 24 直接乘以 2 等公式帶錯導致的計算錯誤。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 題目 9 -->
+            <div class="question-card" data-q="9">
+                <div class="question-header">
+                    <span class="q-number">9</span>
+                    <span class="q-text">小新想用邊長 20 公分的正方形地磚鋪滿一個長 3 公尺、寬 2 公尺的陽台地板。請問小新最少需要買多少塊地磚？</span>
+                </div>
+                <ul class="options-list">
+                    <li class="option-item" onclick="selectOption(this)">
+                        <input type="radio" name="q9" value="1">
+                        <span class="option-text">(1) 30 塊</span>
+                    </li>
+                    <li class="option-item" onclick="selectOption(this)">
+                        <input type="radio" name="q9" value="2">
+                        <span class="option-text">(2) 150 塊</span>
+                    </li>
+                    <li class="option-item" onclick="selectOption(this)">
+                        <input type="radio" name="q9" value="3">
+                        <span class="option-text">(3) 300 塊</span>
+                    </li>
+                    <li class="option-item" onclick="selectOption(this)">
+                        <input type="radio" name="q9" value="4">
+                        <span class="option-text">(4) 1500 塊</span>
+                    </li>
+                </ul>
+                <div class="explanation-box" id="exp-q9">
+                    <div class="exp-section">
+                        <div class="exp-title">🔑 正確答案：(2)</div>
+                    </div>
+                    <div class="exp-section">
+                        <div class="exp-title">📝 試題解析</div>
+                        <p><strong>方法一</strong>（依長寬排列鋪設）：<br>
+                        長 3 公尺 = 300 公分，300 ÷ 20 = 15 塊。<br>
+                        寬 2 公尺 = 200 公分，200 ÷ 20 = 10 塊。<br>
+                        總共需要 15 × 10 = 150 塊。<br>
+                        <strong>方法二</strong>（面積相除法）：<br>
+                        陽台面積 = 300 × 200 = 60000 平方公分。<br>
+                        正方形地磚面積 = 20 × 20 = 400 平方公分。<br>
+                        所需塊數 = 60000 ÷ 400 = 150 塊。</p>
+                    </div>
+                    <div class="exp-section">
+                        <div class="exp-title">⚠️ 干擾項與迷思分析</div>
+                        <p><strong>選項 (1)</strong>：直接用 3 公尺 × 2 公尺 = 6，然後除以 20，忽略了單位公尺與公分的換算。<br>
+                        <strong>選項 (3)</strong>：在除法計算（60000 ÷ 400）中計算粗心，得到 300 塊的錯誤答案。<br>
+                        <strong>選項 (4)</strong>：在面積換算時，將陽台面積算錯為 600000，多算了一個零。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 題目 10 -->
+            <div class="question-card" data-q="10">
+                <div class="question-header">
+                    <span class="q-number">10</span>
+                    <span class="q-text">有一塊長方形的公告欄，周長是 50 公尺。如果已知公告欄的長是 15 公尺，請問它的寬是多少公尺？</span>
+                </div>
+                <ul class="options-list">
+                    <li class="option-item" onclick="selectOption(this)">
+                        <input type="radio" name="q10" value="1">
+                        <span class="option-text">(1) 35 公尺</span>
+                    </li>
+                    <li class="option-item" onclick="selectOption(this)">
+                        <input type="radio" name="q10" value="2">
+                        <span class="option-text">(2) 20 公尺</span>
+                    </li>
+                    <li class="option-item" onclick="selectOption(this)">
+                        <input type="radio" name="q10" value="3">
+                        <span class="option-text">(3) 10 公尺</span>
+                    </li>
+                    <li class="option-item" onclick="selectOption(this)">
+                        <input type="radio" name="q10" value="4">
+                        <span class="option-text">(4) 5 公尺</span>
+                    </li>
+                </ul>
+                <div class="explanation-box" id="exp-q10">
+                    <div class="exp-section">
+                        <div class="exp-title">🔑 正確答案：(3)</div>
+                    </div>
+                    <div class="exp-section">
+                        <div class="exp-title">📝 試題解析</div>
+                        <p>長方形的周長 = (長 + 寬) × 2。<br>
+                        所以長 + 寬 = 周長 ÷ 2 = 50 ÷ 2 = 25 公尺。<br>
+                        已知長是 15 公尺，因此寬 = 25 - 15 = 10 公尺。<br>
+                        另一種算法：(50 - 15 × 2) ÷ 2 = (50 - 30) ÷ 2 = 20 ÷ 2 = 10 公尺。</p>
+                    </div>
+                    <div class="exp-section">
+                        <div class="exp-title">⚠️ 干擾項與迷思分析</div>
+                        <p><strong>選項 (1)</strong>：直接用周長減去一個長（50 - 15 = 35），忘記長方形有兩對長與寬，且未將周長減半。<br>
+                        <strong>選項 (2)</strong>：將周長減去兩個長（50 - 30 = 20），但忘記把剩下的 20 除以 2 得到寬。<br>
+                        <strong>選項 (4)</strong>：純粹計算錯誤，誤選 5。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 提交區域 -->
+            <div class="submit-area">
+                <button type="button" class="btn-submit" onclick="submitExam()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    提交考卷，查看成績！
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+    <!-- 成績彈出卡 -->
+    <div class="modal-overlay" id="result-modal">
+        <div class="modal-card">
+            <h2 style="font-size: 22px; margin-bottom: 20px; font-weight: 700;">🎉 測驗作答結果 🎉</h2>
+            <div class="score-ring">
+                <svg>
+                    <circle class="bg" cx="75" cy="75" r="70"></circle>
+                    <circle class="progress" id="score-progress" cx="75" cy="75" r="70"></circle>
+                </svg>
+                <div class="score-text" id="score-val">0</div>
+            </div>
+            <div class="score-grade" id="grade-val">A+</div>
+            <div class="score-feedback" id="feedback-val">非常好！觀念十分清晰！</div>
+            
+            <div class="score-details">
+                <div class="detail-item">
+                    答對題數
+                    <span id="correct-val">0 / 10</span>
+                </div>
+                <div class="detail-item">
+                    花費時間
+                    <span id="time-val">00:00</span>
+                </div>
+            </div>
+
+            <button type="button" class="btn-modal-close" onclick="closeModal()">檢視錯題與解析</button>
+        </div>
+    </div>
+
+    <script>
+        // Google Sheet GAS Web App API 串接介面
+        const GOOGLE_SCRIPT_URL = '';
+
+        // 正確答案定義
+        const answers = {
+            q1: "3",
+            q2: "3",
+            q3: "2",
+            q4: "3",
+            q5: "2",
+            q6: "2",
+            q7: "1",
+            q8: "2",
+            q9: "2",
+            q10: "3"
+        };
+
+        // 計時器邏輯
+        let timeLeft = 40 * 60; // 40 分鐘，單位秒
+        let timerInterval = null;
+        let isSubmitted = false;
+        let timeSpentSeconds = 0;
+
+        function startTimer() {
+            const display = document.getElementById("time-left");
+            timerInterval = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    display.innerText = "00:00";
+                    display.style.color = "var(--error-color)";
+                    if (!isSubmitted) {
+                        alert("測驗時間截止！系統已為您自動提交考卷。");
+                        submitExam(true);
+                    }
+                    return;
+                }
+                timeLeft--;
+                timeSpentSeconds++;
+                
+                let mins = Math.floor(timeLeft / 60);
+                let secs = timeLeft % 60;
+                display.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                
+                if (timeLeft < 60) {
+                    display.style.color = "var(--error-color)";
+                }
+            }, 1000);
+        }
+
+        // 深淺色模式切換
+        const themeToggleBtn = document.getElementById("btn-theme-toggle");
+        themeToggleBtn.addEventListener("click", () => {
+            const currentTheme = document.documentElement.getAttribute("data-theme");
+            const newTheme = currentTheme === "dark" ? "light" : "dark";
+            document.documentElement.setAttribute("data-theme", newTheme);
+            
+            // 更換圖標
+            if (newTheme === "dark") {
+                themeToggleBtn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>`;
+            } else {
+                themeToggleBtn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>`;
+            }
+        });
+
+        // 選擇選項互動
+        function selectOption(element) {
+            if (isSubmitted) return;
+            // 找到該選項的 Radio Button
+            const radio = element.querySelector('input[type="radio"]');
+            if (radio) {
+                radio.checked = true;
+            }
+            // 移除同題其他選項的 active/selected 樣式
+            const list = element.parentNode;
+            list.querySelectorAll('.option-item').forEach(item => {
+                item.style.borderColor = "var(--border-color)";
+                item.style.backgroundColor = "var(--bg-color)";
+            });
+            // 套用選中樣式
+            element.style.borderColor = "var(--primary-color)";
+            element.style.backgroundColor = "var(--primary-light)";
+        }
+
+        // 教師模式切換
+        let teacherMode = false;
+        const teacherBtn = document.getElementById("btn-teacher-mode");
+        teacherBtn.addEventListener("click", () => {
+            teacherMode = !teacherMode;
+            if (teacherMode) {
+                teacherBtn.style.color = "var(--success-color)";
+                teacherBtn.style.borderColor = "var(--success-color)";
+                document.querySelectorAll('.explanation-box').forEach(box => box.classList.add('visible'));
+                // 標示正確答案
+                for (let q in answers) {
+                    const qNum = q.substring(1);
+                    const qCard = document.querySelector(`.question-card[data-q="${qNum}"]`);
+                    const correctVal = answers[q];
+                    const items = qCard.querySelectorAll('.option-item');
+                    items.forEach(item => {
+                        const input = item.querySelector('input');
+                        if (input && input.value === correctVal) {
+                            item.classList.add('correct');
+                        }
+                    });
+                }
+            } else {
+                teacherBtn.style.color = "var(--text-color)";
+                teacherBtn.style.borderColor = "var(--border-color)";
+                if (!isSubmitted) {
+                    document.querySelectorAll('.explanation-box').forEach(box => box.classList.remove('visible'));
+                    document.querySelectorAll('.option-item').forEach(item => item.classList.remove('correct', 'incorrect'));
+                }
+            }
+        });
+
+        // 列印考卷
+        document.getElementById("btn-print").addEventListener("click", () => {
+            if (teacherMode || isSubmitted) {
+                document.body.classList.add("print-answers");
+            } else {
+                document.body.classList.remove("print-answers");
+            }
+            window.print();
+        });
+
+        // 提交試卷
+        function submitExam(force = false) {
+            if (isSubmitted) return;
+
+            // 取得基本資料
+            const sClass = document.getElementById("student-class").value.trim();
+            const sSeat = document.getElementById("student-seat").value.trim();
+            const sName = document.getElementById("student-name").value.trim();
+
+            // 防呆驗證
+            if (!force && (!sClass || !sSeat || !sName)) {
+                alert("請填寫班級、座號與姓名後，再提交考卷！");
+                // 捲動至頂部
+                document.getElementById("student-form").scrollIntoView({ behavior: 'smooth' });
+                return;
+            }
+
+            isSubmitted = true;
+            clearInterval(timerInterval);
+
+            // 計算分數與統計
+            let score = 0;
+            let correctCount = 0;
+            const details = {};
+
+            for (let q in answers) {
+                const qNum = q.substring(1);
+                const qCard = document.querySelector(`.question-card[data-q="${qNum}"]`);
+                const selectedInput = qCard.querySelector('input[type="radio"]:checked');
+                const selectedVal = selectedInput ? selectedInput.value : "";
+                const correctVal = answers[q];
+                
+                details[q] = {
+                    selected: selectedVal,
+                    correct: correctVal,
+                    isCorrect: selectedVal === correctVal
+                };
+
+                if (selectedVal === correctVal) {
+                    score += 10;
+                    correctCount++;
+                }
+
+                // UI 更新：標示正確與錯誤選項
+                const items = qCard.querySelectorAll('.option-item');
+                items.forEach(item => {
+                    const input = item.querySelector('input');
+                    if (input) {
+                        // 隱藏 radio
+                        input.disabled = true;
+                        
+                        // 正確答案用綠色標示
+                        if (input.value === correctVal) {
+                            item.classList.add('correct');
+                        }
+                        // 學生選錯的用紅色標示
+                        if (selectedVal !== correctVal && input.value === selectedVal) {
+                            item.classList.add('incorrect');
+                        }
+                    }
+                });
+
+                // 展開解析
+                const expBox = document.getElementById(`exp-${q}`);
+                if (expBox) {
+                    expBox.classList.add('visible');
+                }
+            }
+
+            // 表現評等
+            let grade = 'C';
+            let feedback = '需要多加練習，把基本觀念重新釐清喔！加油！';
+            if (score === 100) {
+                grade = 'A+';
+                feedback = '非常完美！觀念十分清晰，拿到了滿分 100 分！🏆';
+            } else if (score >= 90) {
+                grade = 'A';
+                feedback = '表現優異！答題精準，只差一點點就滿分囉！🌟';
+            } else if (score >= 80) {
+                grade = 'A-';
+                feedback = '十分出色！大部分的周長與面積觀念都能掌握！👍';
+            } else if (score >= 70) {
+                grade = 'B';
+                feedback = '答得不錯！有些細節和單位換算可以再細心檢查！';
+            } else if (score >= 60) {
+                grade = 'B-';
+                feedback = '及格囉！但仍有部分觀念不夠熟練，記得看解析複習。';
+            }
+
+            // 格式化時間
+            let minsSpent = Math.floor(timeSpentSeconds / 60);
+            let secsSpent = timeSpentSeconds % 60;
+            const timeSpentStr = `${minsSpent.toString().padStart(2, '0')}:${secsSpent.toString().padStart(2, '0')}`;
+
+            // 更新 modal 資料
+            document.getElementById("score-val").innerText = score;
+            document.getElementById("grade-val").innerText = grade;
+            document.getElementById("feedback-val").innerText = feedback;
+            document.getElementById("correct-val").innerText = `${correctCount} / 10 題`;
+            document.getElementById("time-val").innerText = timeSpentStr;
+
+            // 顯示 modal
+            const modal = document.getElementById("result-modal");
+            modal.style.display = "flex";
+
+            // SVG 環形進度條動畫
+            setTimeout(() => {
+                const circle = document.getElementById("score-progress");
+                const radius = circle.r.baseVal.value;
+                const circumference = 2 * Math.PI * radius;
+                const offset = circumference - (score / 100) * circumference;
+                circle.style.strokeDashoffset = offset;
+            }, 100);
+
+            // GAS 串接提交
+            if (GOOGLE_SCRIPT_URL) {
+                fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        action: "saveReviewExam",
+                        studentClass: sClass,
+                        studentSeat: sSeat,
+                        studentName: sName,
+                        score: score,
+                        correctCount: correctCount,
+                        timeSpent: timeSpentStr,
+                        details: details
+                    })
+                }).catch(err => console.log("GAS upload failed:", err));
+            }
+        }
+
+        function closeModal() {
+            document.getElementById("result-modal").style.display = "none";
+            // 捲動至最上方讓學生開始檢討錯題
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 初始化
+        window.onload = () => {
+            startTimer();
+        };
+    </script>
+</body>
+</html>
